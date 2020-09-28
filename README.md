@@ -41,3 +41,40 @@ rclone sync -P box:100x100/assemblies/repeat_masked/fastas /path/to/local/dir
 ```
 
 Full list of commands: https://rclone.org/commands/
+
+## Setting up containers
+The host system must have Docker and Singularity (>3.0) set up for the images to
+build properly. Some images may not build or work properly without an NVIDIA
+graphics card. In those cases you will have to modify the installation to omit
+the GPU-enabled versions of certain programs. We have built images successfully
+on Linux systems and on Windows, running the Windows Subsystem for Linux
+compatibility layer (WSL2). At the time this was written, images could not be
+built on Mac OS due to compatibility issues with Singularity, but images should
+run.
+
+For Nanopore base calling, Racon polishing, and Medaka polishing, an NVIDIA
+graphics card of the Pascal (GTX 1080) generation or later should be installed
+as well as NVIDIA/CUDA drivers and NVIDIA Docker. In Ubuntu, drivers were
+installed by running the commands:
+
+```bash
+ubuntu-drivers devices
+ubuntu-drivers autoinstall
+```
+
+[Overview](https://github.com/NVIDIA/nvidia-docker) for installing Docker with
+the NVIDIA Container toolkit with [detailed instructions]
+(https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
+
+
+
+We have built images successfully on Ubuntu booting natively or
+installed alongside Windows with the WSL compatibility layer. We could not build
+images on Mac OS due to compatibility issues with Singularity, but they should
+run.
+
+For Nanopore base calling and assembly, an NVIDIA graphics card of the
+Pascal (GTX 1000) generation or later should be installed as well as
+NVIDIA/CUDA drivers and NVIDIA Docker. While the NVIDIA hardware and
+libraries are *technically* not required, the pipeline is
+prohibitively slow without GPU acceleration.

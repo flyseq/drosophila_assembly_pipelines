@@ -52,18 +52,65 @@ rclone sync -P box:100x100/assemblies/repeat_masked/fastas /path/to/local/dir
 Full list of commands: https://rclone.org/commands/
 
 ## Setting up containers
-The host system must have Docker and Singularity (>3.0) set up for the container images to build properly. Some images may not build or work properly without an NVIDIA graphics card. In those cases you will have to modify the installation to omit the GPU-enabled versions of certain programs. We have built images successfully on Linux systems and on Windows, running the Windows Subsystem for Linux compatibility layer (WSL2). At the time this was written, Singularity images could not be built on Mac OS due to compatibility issues, but the images should run. We have built images successfully on Ubuntu booting natively or installed alongside Windows with the WSL compatibility layer.
+We use Docker and Singularity to manage containers but ultimately prefer to utilize Singularity image files as they are friendlier with the cluster. Docker requires elevated permissions for certain operations.
+
+The system for setting up and building images should have Docker and Singularity (>3.0) installed. We have built images successfully on Linux systems and on Windows, running Ubuntu 20.04 with the Windows Subsystem for Linux compatibility layer (WSL2). At the time this was written, Singularity images could not be built on Mac OS due to compatibility issues, but the images should run. Some images may not build or work properly without an NVIDIA graphics card. In those cases you will have to modify the installation to omit the GPU-enabled versions of certain programs. 
 
 For Nanopore base calling, Racon polishing, and Medaka polishing, an NVIDIA
 graphics card of the Pascal (GTX 1000) generation or later should be installed
-as well as NVIDIA/CUDA drivers and NVIDIA Docker. In Ubuntu, drivers were
-installed by running the commands:
+as well as NVIDIA/CUDA drivers and NVIDIA Docker. 
 
-```bash
-ubuntu-drivers devices
-ubuntu-drivers autoinstall
-```
+### Required programs for building images
 
+The following programs must be installed to build images. Once
+a Singularity image has been built, it can be transferred to and run
+on any system (e.g. the cluster) without elevated privileges.
+
+Docker: https://docs.docker.com/get-docker/  
+Singularity: https://sylabs.io/guides/3.0/user-guide/installation.html  
 [Overview](https://github.com/NVIDIA/nvidia-docker) for installing Docker with
 the NVIDIA Container toolkit with [detailed instructions]
 (https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
+NVIDIA drivers* are easily installed on Ubuntu systems with:    
+```bash
+ubuntu-drivers devices
+sudo ubuntu-drivers autoinstall
+```
+*Optional for GPU-accelerated images.
+
+Also note, when using containers the CUDA libraries do not have to be installed on the host machine, just the drivers. Use `nvidia-smi` inside a running container to check that drivers are installed and working and that the graphics card is detected.
+
+### Building Docker/Singularity images
+
+Once Docker and Singularity have been installed, an image is built from the supplied Dockerfiles. Again, note these Dockerfiles contain installation instructions for libraries/programs of the *exact same versions* used in our analysis for the sake of reproducibility. Please use current versions of all programs for better performance. 
+
+From the directory containing the Dockerfile of interest, run the following code to build the Docker image. For example, to build the Nanopore assembly image:  
+```bash
+cd ./dockerfiles/assembly
+
+imageName="assembly"
+sudo Docker build -t ${imageName} .
+```  
+Once the image is built, a Docker container can be launched with the image. The 
+```--gpus all``` argument allows the container to access GPU resources; omit
+this if you are not running a GPU image.
+```bash
+sudo docker run --gpus all -i -t assembly:latest
+```
+Because the Docker daemon requires root permissions we use Singularity 
+to run containers on the cluster. A Singularity image is built from
+the Docker image with the following command:
+```bash
+imageName="assembly"
+sudo singularity build ${imageName}.simg \
+    docker-daemon://${imageName}:latest
+```  
+The resulting `assembly.simg` Singularity image is used to run
+containers. For example, to start an interactive shell at the current
+working directory, use:
+```bash
+singularity shell --nv assembly.simg
+```
+Similar to the Docker command above, omit the ```--nv``` argument if GPUs are
+not needed for the workflow. Once the Singularity image is built, it can be
+copied to a different system and run immediately.

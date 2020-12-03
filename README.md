@@ -22,31 +22,8 @@ Nanopore raw data (fast5) files are not publicly available but we will provide
 them freely upon request. Please email Bernard Kim (email on GitHub profile
 page) for access. 
 
-The easiest way to access project files is to use Rclone, a command line tool
-for managing cloud storage. Download it [here](https://rclone.org/downloads/). 
-
-To set it up to work with our Box folder, copy the ```rclone``` binary into a 
-directory in your ```$PATH```. Then, configure it by running ```rclone config```
-and by choosing the following options. 
-1. Add a new remote (```n```) 
-1. Name it ```box```, or whatever you'd like
-1. Choose option ```6``` for Box storage
-1. Don't enter anything for Client Id
-1. Don't enter anything for the Client Secret
-1. Don't enter anything for the config.json location
-1. Sub type is ```1``` or ```"user"```
-1. Enter ```n``` and don't edit advanced config
-1. If you are working on your own machine, enter ```y```, if you are trying to 
-set up Rclone on a remote machine (e.g. the cluster), enter ```n``` 
-   - If you're setting up on a local machine, an authorization web page should
-   automatically appear. If it does not, go to the address provided by Rclone.
-   - If you're setting up on a remote machine, you will need to have a copy of
-   ```rclone``` installed on your local machine. At this step you will need to
-   run the command ```rclone authorize "box"``` on your local machine, authorize
-   using the web page that shows up, then provide the authorization key to the remote machine.
-
-Once ```rclone``` has been set up in this manner, downloading a Box directory is
-as easy as running:
+We recommend Rclone, an Rsync like utility for cloud and web storage, for batch
+downloads of files. Download it [here](https://rclone.org/downloads/). 
 
 ```bash
 rclone copy -P box:100x100/assemblies/repeat_masked/fastas /path/to/local/dir
@@ -127,8 +104,7 @@ to run containers on the cluster. A Singularity image is built from
 the Docker image with the following command:
 ```bash
 imageName="assembly"
-sudo singularity build ${imageName}.simg \
-    docker-daemon://${imageName}:latest
+sudo singularity build ${imageName}.simg docker-daemon://${imageName}:latest
 ```  
 The resulting `assembly.simg` Singularity image is used to run
 containers. For example, to start an interactive shell at the current

@@ -8,10 +8,12 @@ The reads and genomes produced by this work are available through NCBI from BioP
 https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA675888
 
 ### Data access through request
-Genome assemblies are still being processed by NCBI and are not yet available for download. Nanopore raw data (fast5 files) are not publicly available but we will provide them freely upon request. Please email Bernard Kim (email on GitHub profile page) for access.
+Genome assemblies are still being processed by NCBI and are not yet available for download. We are temporarily hosting assemblies at the following link:
+https://web.stanford.edu/~bkim331/files/genomes/
 
-The easiest way to access project files (for now) is to use Rclone, a command
-line tool for managing cloud storage. Download it here:
+Nanopore raw data (fast5) files are not publicly available but we will provide them freely upon request. Please email Bernard Kim (email on GitHub profile page) for access.
+
+The easiest way to access project files is to use Rclone, a command line tool for managing cloud storage. Download it here:
 https://rclone.org/downloads/
 
 To set it up to work with our Box folder, copy the ```rclone``` binary into a 

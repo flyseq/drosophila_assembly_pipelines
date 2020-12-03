@@ -1,9 +1,8 @@
 #! /bin/bash
 
-#Script for building trees with BUSCO sequences
-#This was written for doing all the analyses on a single dev box
-#and makes extensive use of GNU Parallel
-#Ask Bernard if you have any questions
+# Script for building trees with BUSCO sequences
+# This was written for doing all the analyses on a single dev box
+# and makes extensive use of GNU Parallel
 
 #set maximum number of threads to use
 threads="80"

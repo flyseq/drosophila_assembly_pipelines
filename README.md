@@ -25,13 +25,10 @@ page) for access.
 We recommend Rclone, an Rsync like utility for cloud and web storage, for batch
 downloads of files. Download it [here](https://rclone.org/downloads/). 
 
+Example for downloading all genome files provided above:
 ```bash
-rclone copy -P box:100x100/assemblies/repeat_masked/fastas /path/to/local/dir
-```
-
-If you have download some files already and want to skip them:
-```bash
-rclone sync -P box:100x100/assemblies/repeat_masked/fastas /path/to/local/dir
+rclone copy -P --http-url https://web.stanford.edu/~bkim331/files/genomes/
+:http: ./
 ```
 
 Full list of commands: https://rclone.org/commands/

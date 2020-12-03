@@ -1,20 +1,17 @@
 # Drosophila genome assembly paper workflows
-Scripts and Dockerfiles for [PAPER] are provided here. Using these resources, one should be able to exactly reproduce the assembly workflow and analyses presented in the manuscript.
+Scripts and Dockerfiles for (our paper)[https://www.biorxiv.org/] are provided here. Using these resources, one should be able to exactly reproduce the assembly workflow and analyses presented in the manuscript.
 
 ## Downloading project files
 
 ### Data access through NCBI
-The reads and genomes produced by this work are available through NCBI from BioProject PRJNA675888. A supplementary table with accession numbers is provided in our manuscript. Alternatively, only for species that we sequenced and uploaded to NCBI, a table can be generated with the SRA Run Selector:
-https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA675888
+The reads and genomes produced by this work are available through NCBI from BioProject PRJNA675888. A supplementary table with accession numbers is provided in our manuscript. Alternatively, only for species that we sequenced and uploaded to NCBI, a table can be generated with the (SRA Run Selector)[https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA675888].
 
 ### Data access through request
-Genome assemblies are still being processed by NCBI and are not yet available for download. We are temporarily hosting assemblies at the following link:
-https://web.stanford.edu/~bkim331/files/genomes/
+Genome assemblies are still being processed by NCBI and are not yet available for download. We are temporarily hosting assemblies at (this link)[https://web.stanford.edu/~bkim331/files/genomes/].
 
 Nanopore raw data (fast5) files are not publicly available but we will provide them freely upon request. Please email Bernard Kim (email on GitHub profile page) for access.
 
-The easiest way to access project files is to use Rclone, a command line tool for managing cloud storage. Download it here:
-https://rclone.org/downloads/
+The easiest way to access project files is to use Rclone, a command line tool for managing cloud storage. Download it (here)[https://rclone.org/downloads/].
 
 To set it up to work with our Box folder, copy the ```rclone``` binary into a 
 directory in your ```$PATH```. Then, configure it by running ```rclone config```

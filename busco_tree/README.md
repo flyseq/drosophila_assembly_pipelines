@@ -1,6 +1,5 @@
-# BUSCO-based analysis
-`busco_gene_trees_ml.tree`: Newick-formatted individual gene trees (RAxML)
-`busco_species_astral.tree`: Newick-formatted species tree (ASTRAL)
+# BUSCO-based analyses
+Workflows for BUSCO-based analyses.
 
 ## Installing BUSCO
 Although the BUSCO developers provide Docker images, we ran all BUSCO analyses
@@ -34,6 +33,10 @@ needs the path this directory to work.
 1. Align with MAFFT
 1. Infer gene trees with RAxML-NG
 1. Infer species tree with ASTRAL-MP
+
+`busco_gene_trees_ml.tree`: Newick-formatted individual gene trees (RAxML)
+
+`busco_species_astral.tree`: Newick-formatted species tree (ASTRAL)
 
 ## Workflow: BUSCO synteny analysis (not done in a container)
 1. `compile_busco_markers.sh`: Extract position information for each complete BUSCO

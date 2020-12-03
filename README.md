@@ -27,8 +27,7 @@ downloads of files. Download it [here](https://rclone.org/downloads/).
 
 Example for downloading all genome files provided above:
 ```bash
-rclone copy -P --http-url https://web.stanford.edu/~bkim331/files/genomes/
-:http: ./
+rclone copy -P --http-url https://web.stanford.edu/~bkim331/files/genomes/ :http: ./
 ```
 
 Full list of commands: https://rclone.org/commands/

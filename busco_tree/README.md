@@ -1,4 +1,6 @@
 # BUSCO-based analysis
+`busco_gene_trees_ml.tree`: Newick-formatted individual gene trees (RAxML)
+`busco_species_astral.tree`: Newick-formatted species tree (ASTRAL)
 
 ## Installing BUSCO
 Although the BUSCO developers provide Docker images, we ran all BUSCO analyses

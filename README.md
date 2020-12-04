@@ -59,8 +59,7 @@ on any system (e.g. the cluster) without elevated privileges.
 Docker: https://docs.docker.com/get-docker/  
 Singularity: https://sylabs.io/guides/3.0/user-guide/installation.html  
 [Overview](https://github.com/NVIDIA/nvidia-docker) for installing Docker with
-the NVIDIA Container toolkit with [detailed instructions]
-(https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
+the NVIDIA Container toolkit with [detailed instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
 NVIDIA drivers* are easily installed on Ubuntu systems with:    
 ```bash
 ubuntu-drivers devices

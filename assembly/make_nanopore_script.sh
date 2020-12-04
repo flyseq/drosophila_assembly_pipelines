@@ -1,109 +1,85 @@
-sp="L.clarofinis"
-genomeSize="500m"
-threads="78"
+# This script creates a set of scripts to perform the Nanopore-based portion of
+# the genome assembly pipeline.
+#
+# To use it, place it into your working directory alongside a folder containing
+# the Nanopore fast5 files. The folder should be named with the species/strain
+# name, that name should match the sp="D.melanogaster" name below. 
+#
+# The final output from this pipeline is the Medaka-polished assembly e.g.,
+# D.melanogaster.assembly.medaka.fasta
+
+# set these parameters for your assembly
+sp="D.melanogaster"
+genomeSize="140m"
+
+#set the number of CPU threads to use (should probably set this manually)
+threads=$(nproc)
+# if you have a lot of ultra-long reads, flye sometimes runs out of memory. Set
+# flyeThreads < threads if this is an issue.
 flyeThreads="78"
-#guppy version
-gv="guppy351"
 
-cwd=$(pwd)
-
-cat > ./${sp}/run_nanopore_workflow.sh << EOM
-#singularity shell --nv -B ${cwd}/${sp}:/scratch/ -B /media/bernardkim/active-data/:/active-data/ ~/singularity_images/guppy.3.2.4_raconGPU_medakaGPU.simg
-
-cd /scratch/
+#
+# Make basecaller script
+# 
+cat > ./01_run_guppy.sh <<EOF
+#run guppy in HAC mode
 guppy_basecaller -i ${sp} \\
-    -s ${sp}.basecalled --recursive \\
-    -c dna_r9.4.1_450bps_hac.cfg \\
-    --device "cuda:0" \\
-    --trim_strategy dna \\
-    --qscore_filtering --calib_detect
+  -s ${sp}.basecalled --recursive \\
+  -c dna_r9.4.1_450bps_hac.cfg \\
+  --device "cuda:0" \\
+  --trim_strategy dna \\
+  --qscore_filtering --calib_detect
 
-# for HAC base caller use
-#    --config dna_r9.4.1_450bps_hac.cfg \\
-# for modified base caller modify the config and enable fast5 output
-#    --config dna_r9.4.1_450bps_modbases_dam-dcm-cpg_hac.cfg \\
-#    --fast5_out \\
-# for R10 use
-#    --config dna_r10_450bps_hac.cfg
-# removed for Guppy 3.2.4
-#    --gpu_runners_per_device 4
+#gather reads passing default quality filter and gzip
+cat ./${sp}.basecalled/pass/*.fastq | pigz -p ${threads} > ${sp}.passReads.fastq.gz
+EOF
 
-#compile fastq into a single gzipped file
-cat ./${sp}.basecalled/pass/*.fastq | pigz -p 70 > ${sp}.passReads.${gv}.fastq.gz
-cat ./${sp}.basecalled/fail/*.fastq ./${sp}.basecalled/pass/*.fastq | pigz -p 70 > \\
-    ${sp}.allReads.${gv}.fastq.gz
-
-#compute an md5 hash for each fastq.gz
-md5sum ${sp}.passReads.${gv}.fastq.gz | awk {'print \$1'} > ${sp}.passReads.${gv}.fastq.gz.md5
-md5sum ${sp}.allReads.${gv}.fastq.gz | awk {'print \$1'} > ${sp}.allReads.${gv}.fastq.gz.md5
-
-#compute read lengths for pass reads
-zcat ${sp}.passReads.${gv}.fastq.gz | awk '{if(NR%4==2) print length(\$1)}' > ${sp}.readLengths.txt
-
-#make transfer directory
-mkdir -p transfer_box_reads
-
-#split files if bigger than 15GB and move to transfer dir
-for readType in "passReads" "allReads"; do
-    if [ \$readType == "passReads" ]; then
-        cp ${sp}.\${readType}.${gv}.fastq.gz /active-data/reads/
-    fi
-    fs=\$(stat --printf="%s" ${sp}.\${readType}.${gv}.fastq.gz)
-    if [ \$fs -gt 15000000000 ]; then
-        split -d -a3 -b 10000m ${sp}.\${readType}.${gv}.fastq.gz ${sp}.\${readType}.${gv}.fastq.gz.
-	mv ${sp}.\${readType}.${gv}.fastq.gz.* ./transfer_box_reads
-	rm ${sp}.\${readType}.${gv}.fastq.gz
-    else
-	mv ${sp}.\${readType}.${gv}.fastq.gz* ./transfer_box_reads
-    fi
-done
-
-#get ready for assembly and polishing
-cp /active-data/reads/${sp}.passReads.${gv}.fastq.gz ./
-gunzip ${sp}.passReads.${gv}.fastq.gz
-
-#assemble with Flye
-flye --nano-raw ${sp}.passReads.${gv}.fastq \\
+#
+# Make assembly script
+#
+cat > ./02_run_flye.sh <<EOF
+#run flye
+flye --nano-raw ${sp}.passReads.fastq.gz \\
      --genome-size ${genomeSize} \\
      --threads ${flyeThreads} \\
      --out-dir ${sp}.FlyeAssembly
+EOF
 
-#save Flye output
-mkdir -p transfer_box_flye
-cp ./${sp}.FlyeAssembly/assembly.fasta ./transfer_box_flye/${sp}.FlyeAssembly.fasta
-tar cf - ${sp}.FlyeAssembly | pigz -p ${threads} > ./transfer_box_flye/${sp}.FlyeAssembly.tar.gz
-cp ./transfer_box_flye/${sp}.FlyeAssembly.fasta /active-data/FlyeAssemblies/${sp}.FlyeAssembly.fasta
+#
+# Make racon polishing script
+#
+cat > ./03_run_racon.sh <<EOF
+#copy Flye assembly to temp file
+cp ${sp}.FlyeAssembly/assembly.fasta ./temp_draft.fa
 
-#polish with racon
-cp /active-data/FlyeAssemblies/${sp}.FlyeAssembly.fasta ./temp_draft.fa
+#polish with Racon twice
 for i in {1..2}; do
-    minimap2 -x map-ont -t ${threads} temp_draft.fa ${sp}.passReads.${gv}.fastq > \\
+    minimap2 -x map-ont -t ${threads} temp_draft.fa ${sp}.passReads.fastq.gz > \\
         temp_reads_to_draft.paf
-    racon -t ${threads} -c 4 -m 8 -x -6 -g -8 -w 500 ${sp}.passReads.${gv}.fastq \\
+    racon -t ${threads} -c 4 -m 8 -x -6 -g -8 -w 500 ${sp}.passReads.fastq.gz \\
     	temp_reads_to_draft.paf temp_draft.fa > temp_draft_new.fa
     mv temp_draft_new.fa temp_draft.fa
-done
 
-#clean up and copy to active data drive
-rm temp_reads_to_draft.paf
+#clean up files
 mv temp_draft.fa ${sp}.assembly.racon.fasta
-cp ${sp}.assembly.racon.fasta /active-data/racon/
+rm temp_reads_to_draft.paf
+EOF
 
-#polish with medaka
+#
+# Make Medaka polishing script
+#
+cat > ./04_run_medaka.sh <<EOF
+#activate medaka virtual env
 . /medaka/bin/activate
+
+#special setting for RTX 2000 series
 export TF_FORCE_GPU_ALLOW_GROWTH=true
-medaka_consensus -i ${sp}.passReads.${gv}.fastq -d ${sp}.assembly.racon.fasta \\
+
+#run medaka
+medaka_consensus -i ${sp}.passReads.fastq.gz -d ${sp}.assembly.racon.fasta \\
     -t ${threads} -m r941_min_high -b 40 \\
     -o ${sp}.medaka
 
-# for R9 revD
-# -m r941_min_high
-# for R10 
-# -m r10_min_high
-
-#save drafts
-cp ./${sp}.medaka/consensus.fasta /active-data/medaka/${sp}.assembly.medaka.fasta
-cp ./${sp}.medaka/consensus.fasta ./${sp}.assembly.medaka.fasta
-EOM
-
-echo "singularity shell --nv -B ${cwd}/${sp}:/scratch/ -B /media/bernardkim/active-data/:/active-data/ ~/singularity_images/guppy.3.2.4_raconGPU_medakaGPU.simg"
+#copy draft to new file
+cp ${sp}.medaka/consensus.fasta ./${sp}.assembly.medaka.fasta
+EOF

@@ -86,7 +86,7 @@ to build the Docker image. For example, to build the Nanopore assembly image:
 cd ./dockerfiles/assembly
 
 imageName="assembly"
-sudo Docker build -t ${imageName} .
+sudo docker build -t ${imageName} .
 ```  
 Once the image is built, a Docker container can be launched with the image. The 
 ```--gpus all``` argument allows the container to access GPU resources; omit

@@ -11,6 +11,8 @@ FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu16.04
 RUN apt-get update && apt-get install -y \
     bzip2 \
     curl \
+    default-jdk \
+    default-jre \
     gcc \
     git \
     g++ \
@@ -28,6 +30,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python-virtualenv \
     wget \
+    unzip \
     zlib1g-dev \
  && rm -rf /var/lib/apt/lists/*
 RUN git clone --branch 'v3.17.2' \
@@ -102,4 +105,29 @@ RUN git clone --branch 'v0.9.1' \
     https://github.com/nanoporetech/medaka.git \
  && cd medaka \
  && sed -i 's/tensorflow/tensorflow-gpu/' requirements.txt \
+ && sed -i 's/biopython/biopython==1.76/' requirements.txt \
  && make -j install
+
+#install Purge Haplotigs
+RUN mkdir -p tools \
+ && cd tools \
+ && git clone --branch 'v1.1.1' \
+    https://bitbucket.org/mroachawri/purge_haplotigs.git \
+ && ln -s /tools/purge_haplotigs/bin/purge_haplotigs \
+    /usr/local/bin/purge_haplotigs
+
+#install npscarf
+RUN cd tools \
+ && wget -q https://github.com/mdcao/japsa/releases/download/v1.9-2b/\
+JapsaRelease.zip \
+ && unzip JapsaRelease.zip \
+ && rm JapsaRelease.zip \
+ && cd JapsaRelease \
+ && sed -i 's/--mode install/--mode install --installDir \/tools\/japsa --server yes --xmx=7G/' install.sh \
+ && yes "" | ./install.sh \
+
+#install Pilon
+RUN cd tools 
+ && wget -q https://github.com/broadinstitute/pilon/releases/download/\
+v1.23/pilon-1.23.jar
+

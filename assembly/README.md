@@ -17,7 +17,14 @@ recommendations](https://nanoporetech.github.io/medaka/draft_origin.html#how-sho
 1. `03_run_racon.sh`: Polish twice with Racon
 1. `04_run_medaka.sh`: Polish once with Medaka
 
-## Haplotig identification and removal
+## Haplotig identification and removal (not run in a container)
+Duplicate contigs in the assembly (representing alternative haplotypes, or
+haplotigs) were identified and removed with the [Purge
+Haplotigs](https://bitbucket.org/mroachawri/purge_haplotigs/src/master/)
+pipeline. 
+
+
+
 placeholder
 
 ## Pilon polishing

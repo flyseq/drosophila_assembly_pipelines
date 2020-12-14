@@ -28,5 +28,10 @@ Duplicate contigs in the assembly (representing alternative haplotypes, or haplo
 Three rounds of Pilon polishing were performed. Edit parameters at the top of `polish_pilon.sh` and run.
 
 ## Decontamination
-placeholder
+The NCBI BLAST database was downloaded locally and is too big to provide in a container. A Docker Image with BLAST+ applications pre-installed can be obtained by: 
+```bash
+docker pull ncbi/blast
+```
 
+## Repeat masking
+A repeat masking image is not provided because the RepBase RepeatMasker library cannot be freely provided. The instructions for running RepeatMasker are provided [at this link](http://www.repeatmasker.org/RMDownload.html).

@@ -28,7 +28,7 @@ needs the path this directory to work.
 1. Extract protein sequences of single-copy BUSCOs
 1. Align with MAFFT
 1. Infer gene trees with RAxML-NG
-1. Infer species tree with ASTRAL-MPuilding a protein tree from BUSCOs
+1. Infer species tree with ASTRAL-MP
 1. Extract protein sequences of single-copy BUSCOs
 1. Align with MAFFT
 1. Infer gene trees with RAxML-NG

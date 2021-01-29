@@ -34,9 +34,9 @@ needs the path this directory to work.
 1. Infer gene trees with RAxML-NG
 1. Infer species tree with ASTRAL-MP
 
-`busco_gene_trees_ml.tree`: Newick-formatted individual gene trees (RAxML)
+`data/busco_gene_trees_ml.tree`: Newick-formatted individual gene trees (RAxML)
 
-`busco_species_astral.tree`: Newick-formatted species tree (ASTRAL)
+`data/busco_species_astral.tree`: Newick-formatted species tree (ASTRAL)
 
 ## Workflow: BUSCO synteny analysis (not done in a container)
 1. `compile_busco_markers.sh`: Extract position information for each complete BUSCO
@@ -45,4 +45,4 @@ connections into node/edge tables; parse D. melanogaster BUSCO information using
 provided `dmel_complete_buscos.csv`
 1. `busco_synteny_figure.R`: Apply ForceAtlas2 layout algorithm and plot
 
-
+`data/busco_graph_edges.csv` and `data/busco_graph_nodes.csv`: node/edge tables

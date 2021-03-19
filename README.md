@@ -1,5 +1,5 @@
 # Drosophila genome assembly paper workflows
-Scripts and Dockerfiles for [our paper](https://www.biorxiv.org/) are provided here. Using these resources, one should be able to exactly reproduce the assembly workflow and analyses presented in the manuscript. Details on each set of analyses are found as READMEs in each subfolder.
+Scripts and Dockerfiles for [our paper](https://www.biorxiv.org/content/10.1101/2020.12.14.422775v1.abstract) are provided here. Using these resources, one should be able to exactly reproduce the assembly workflow and analyses presented in the manuscript. Details on each set of analyses are found as READMEs in each subfolder.
 
 ## Downloading project files
 

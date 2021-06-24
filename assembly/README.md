@@ -24,6 +24,16 @@ Edit parameters at top of `make_nanopore_script.sh` and run to spawn a set of sm
 ## Haplotig identification and removal (not run in a container)
 Duplicate contigs in the assembly (representing alternative haplotypes, or haplotigs) were identified and removed with the [Purge Haplotigs](https://bitbucket.org/mroachawri/purge_haplotigs/src/master/) pipeline. 
 
+Purge_haplotigs was installed in a Conda environment:
+```bash
+conda create --name purge_haplotigs -c bioconda -c conda-forge purge_haplotigs
+```
+
+There are manual steps to the workflow in `purge_haplotigs.sh`. Please see the purge_haplotigs repository for instructions.
+
+## Scaffolding
+If haplotig purging was performed, we attempted to re-scaffold the assembly using long reads. The Dockerfile includes an installation of [npScarf](https://github.com/mdcao/npScarf). 
+
 ## Pilon polishing
 Three rounds of Pilon polishing were performed. Edit parameters at the top of `polish_pilon.sh` and run.
 
@@ -35,3 +45,22 @@ docker pull ncbi/blast
 
 ## Repeat masking
 A repeat masking image is not provided because the RepBase RepeatMasker library cannot be freely provided. The instructions for running RepeatMasker are provided [at this link](http://www.repeatmasker.org/RMDownload.html).
+
+## Variant calling
+Short read variant calling tools are available in the Docker image. [PEPPER-Margin-DeepVariant](https://github.com/kishwarshafin/pepper) already provides Docker and Singularity images.
+
+## Quality assessment
+[Merqury](https://github.com/marbl/merqury) and [Pomoxis](https://github.com/nanoporetech/pomoxis) were installed in Conda environments.
+
+Merqury:
+```bash
+conda create --name merqury -c bioconda merqury
+```
+
+Pomoxis:
+```bash
+conda create --name pomoxis -c bioconda pomoxis
+```
+
+## Genome size estimation
+Although Jellyfish is provided in the Docker, we have not included [GenomeScope](https://github.com/schatzlab/genomescope) as it can simply be run as an R script. A [web interface is also available](http://qb.cshl.edu/genomescope/).

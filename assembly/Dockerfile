@@ -76,23 +76,33 @@ RUN git clone --branch 'v2.17' https://github.com/lh3/minimap2 \
 
 # install samtools
 RUN wget -q https://github.com/samtools/samtools/releases/download/\
-1.10/samtools-1.10.tar.bz2 \
- && tar -xjf samtools-1.10.tar.bz2 \
- && cd /samtools-1.10 \
+1.12/samtools-1.12.tar.bz2 \
+ && tar -xjf samtools-1.12.tar.bz2 \
+ && cd /samtools-1.12 \
  && ./configure \
  && make -j \
  && make install \
- && rm -r /samtools-1.10*
+ && rm -r /samtools-1.12*
 
 # install htslib
 RUN wget -q https://github.com/samtools/htslib/releases/download/\
-1.10.2/htslib-1.10.2.tar.bz2 \
- && tar -xjf htslib-1.10.2.tar.bz2 \
- && cd /htslib-1.10.2 \
+1.12/htslib-1.12.tar.bz2 \
+ && tar -xjf htslib-1.12.tar.bz2 \
+ && cd /htslib-1.12 \
  && ./configure \
  && make -j \
  && make install \
- && rm -r /htslib-1.10.2*
+ && rm -r /htslib-1.12*
+
+# install bcftools
+RUN wget -q https://github.com/samtools/bcftools/releases/download/\
+1.12/bcftools-1.12.tar.bz2 \
+ && tar -xjf bcftools-1.12.tar.bz2 \
+ && cd /bcftools-1.12 \
+ && ./configure \
+ && make -j \
+ && make install \
+ && rm -r /bcftools-1.12*
 
 #install medaka 0.9.1 (not latest version)
 RUN wget -q https://github.com/git-lfs/git-lfs/releases/download/\
@@ -127,7 +137,19 @@ JapsaRelease.zip \
  && yes "" | ./install.sh \
 
 #install Pilon
-RUN cd tools 
+RUN cd tools \
  && wget -q https://github.com/broadinstitute/pilon/releases/download/\
 v1.23/pilon-1.23.jar
 
+# install sambamba
+RUN wget -q https://github.com/biod/sambamba/releases/download/\
+v0.8.0/sambamba-0.8.0-linux-amd64-static.gz \
+ && gunzip sambamba-0.8.0-linux-amd64-static.gz \
+ && chmod +x sambamba-0.8.0-linux-amd64-static \
+ && cp sambamba-0.8.0-linux-amd64-static /usr/local/bin/sambamba
+
+# install Jellyfish
+RUN wget -q https://github.com/gmarcais/Jellyfish/releases/download/\
+v2.3.0/jellyfish-linux \
+ && chmod +x jellyfish-linux \
+ && mv jellyfish-linux /usr/local/bin/jellyfish

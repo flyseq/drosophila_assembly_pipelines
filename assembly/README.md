@@ -1,10 +1,14 @@
 # Genome assembly workflow
-The genome assembly pipeline.
+The genome assembly pipeline is provided, step by step, in individual scripts. To ensure reproducibility and consistency of compute environments, each step was run either in a container or a Conda environment.
 
-## Installing BUSCO
-We used [BUSCO v3](https://gitlab.com/ezlab/busco/-/tree/3.0.2) to assess assembly completeness through each step. BUSCO v4 was released during the course of this work and should be used, but we maintained v3 through the pipeline for internal consistency.
+Note that older versions of many of these programs have been specified here for the sake of consistency across our assemblies. In many cases there have been significant updates to these programs. Please use the most up-to-date versions for best results.
 
-BUSCO was installed in a Conda environment:
+## Conda environment setups
+
+## 1. BUSCO
+We used [BUSCO v3](https://gitlab.com/ezlab/busco/-/tree/3.0.2) to assess assembly completeness through each step of the assembly. [BUSCO v4](https://gitlab.com/ezlab/busco/-/tree/4.1.4) was released during the course of this work and was used to assess the completeness of the final assemblies.
+
+### BUSCO v3:
 ```bash
 conda create --name buscov3
 git clone --branch "3.0.2" https://gitlab.com/ezlab/busco.git
@@ -12,7 +16,17 @@ cd busco
 python setup.py install --user
 ```
 
-and otherwise run according to the developer's instructions.
+### BUSCO v4:
+```bash
+conda create --name buscov4 -c bioconda -c conda-forge busco=4.1.4
+```
+
+## 2. Purge_haplotigs
+
+```bash
+conda create --name purge_haplotigs -c bioconda -c conda-forge \
+    purge_haplotigs=1.1.1
+```
 
 ## Nanopore-based assembly
 Edit parameters at top of `make_nanopore_script.sh` and run to spawn a set of smaller job scripts. These should be run sequentially. Changes should be made to threads requested if varying between tasks (e.g. submitting to different nodes on a cluster). The draft sequence is generated following [ONT's recommendations](https://nanoporetech.github.io/medaka/draft_origin.html#how-should-i-create-my-draft-sequence). 

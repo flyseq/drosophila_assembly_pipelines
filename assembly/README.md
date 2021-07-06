@@ -40,42 +40,47 @@ singularity build tetools.simg docker://dfam/tetools:latest
 
 Instructions on running RepeatMasker with the RepBase repeat library are [here.](https://github.com/Dfam-consortium/TETools#using-repbase-repeatmasker-edition)
 
-## Nanopore-based assembly
-Edit parameters at top of `make_nanopore_script.sh` and run to spawn a set of smaller job scripts. These should be run sequentially. Changes should be made to threads requested if varying between tasks (e.g. submitting to different nodes on a cluster). The draft sequence is generated following [ONT's recommendations](https://nanoporetech.github.io/medaka/draft_origin.html#how-should-i-create-my-draft-sequence). 
+## Genome assembly workflow
+
+### Assembly with Nanopore reads
+Edit parameters at top of each script for each assembly, then run scripts sequentially. Changes should be made to threads requested if varying between tasks (e.g. submitting to different nodes on a cluster). The long-read based draft sequence is generated following [ONT's recommendations](https://nanoporetech.github.io/medaka/draft_origin.html#how-should-i-create-my-draft-sequence). 
 1. `01_run_guppy.sh`: Run Guppy basecaller in high-accuracy mode
 1. `02_run_flye.sh`: Run Flye, generate initial draft assembly
 1. `03_run_racon.sh`: Polish twice with Racon
 1. `04_run_medaka.sh`: Polish once with Medaka
 
-## Haplotig identification and removal (not run in a container)
-Duplicate contigs in the assembly (representing alternative haplotypes, or haplotigs) were identified and removed with the [Purge Haplotigs](https://bitbucket.org/mroachawri/purge_haplotigs/src/master/) pipeline. 
+### Haplotig identification and removal (run in Conda)
+If the BUSCO duplication rate exceeds 1% at this step, duplicate contigs in the assembly (representing alternative haplotypes, or haplotigs) are identified and removed with [purge_haplotigs](https://bitbucket.org/mroachawri/purge_haplotigs/src/master/). 
 
-Purge_haplotigs was installed in a Conda environment:
-```bash
-conda create --name purge_haplotigs -c bioconda -c conda-forge purge_haplotigs
-```
+Haplotig purging is performed on the Flye assembly, not the Medaka-polished assembly. The BUSCO assessment is done after Medaka polishing rather than immediately on the Flye assembly since the complete BUSCO %s can be underestimated from the Flye sequences, as they are less accurate.
 
-There are manual steps to the workflow in `purge_haplotigs.sh`. Please see the purge_haplotigs repository for instructions.
+1. `05_purge_haplotigs.sh`: Haplotig purging, following the workflow provided by the developer. 
 
-## Scaffolding
-If haplotig purging was performed, we attempted to re-scaffold the assembly using long reads. The Dockerfile includes an installation of [npScarf](https://github.com/mdcao/npScarf). 
+Coverage cutoffs must be set manually during the analysis. Please see the purge_haplotigs repository [for specific instructions](https://bitbucket.org/mroachawri/purge_haplotigs/wiki/Tutorial).
 
-## Pilon polishing
-Three rounds of Pilon polishing were performed. Edit parameters at the top of `polish_pilon.sh` and run.
+### Scaffolding
+If haplotig purging was performed, we attempted to re-scaffold the assembly using long reads. The Dockerfile includes an installation of [npScarf](https://github.com/mdcao/npScarf).
 
-## Decontamination
+1. `06_scaffold.sh`: Scaffolding, bridge contigs only if supported by at least 4 long reads
+
+### Pilon polishing
+Three rounds of [Pilon](https://github.com/broadinstitute/pilon) polishing were performed. 
+
+1. `07_polish_pilon.sh`
+
+### Decontamination
 The NCBI BLAST database was downloaded locally and is too big to provide in a container. A Docker Image with BLAST+ applications pre-installed can be obtained by: 
 ```bash
 docker pull ncbi/blast
 ```
 
-## Repeat masking
+### Repeat masking
 A repeat masking image is not provided because the RepBase RepeatMasker library cannot be freely provided. The instructions for running RepeatMasker are provided [at this link](http://www.repeatmasker.org/RMDownload.html).
 
-## Variant calling
+### Variant calling
 Short read variant calling tools are available in the Docker image. [PEPPER-Margin-DeepVariant](https://github.com/kishwarshafin/pepper) already provides Docker and Singularity images.
 
-## Quality assessment
+### Quality assessment
 [Merqury](https://github.com/marbl/merqury) and [Pomoxis](https://github.com/nanoporetech/pomoxis) were installed in Conda environments.
 
 Merqury:
@@ -88,5 +93,5 @@ Pomoxis:
 conda create --name pomoxis -c bioconda pomoxis
 ```
 
-## Genome size estimation
+### Genome size estimation
 Although Jellyfish is provided in the Docker, we have not included [GenomeScope](https://github.com/schatzlab/genomescope) as it can simply be run as an R script. A [web interface is also available](http://qb.cshl.edu/genomescope/).

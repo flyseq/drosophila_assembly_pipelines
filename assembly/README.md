@@ -5,10 +5,11 @@ Note that older versions of many of these programs have been specified here for 
 
 ## Conda environment setups
 
-## 1. BUSCO
-We used [BUSCO v3](https://gitlab.com/ezlab/busco/-/tree/3.0.2) to assess assembly completeness through each step of the assembly. [BUSCO v4](https://gitlab.com/ezlab/busco/-/tree/4.1.4) was released during the course of this work and was used to assess the completeness of the final assemblies.
+### 1. BUSCO
 
-### BUSCO v3:
+**BUSCO v3:**
+[BUSCO v3](https://gitlab.com/ezlab/busco/-/tree/3.0.2) was used to assess assembly completeness through each step of the assembly. 
+
 ```bash
 conda create --name buscov3
 git clone --branch "3.0.2" https://gitlab.com/ezlab/busco.git
@@ -16,17 +17,28 @@ cd busco
 python setup.py install --user
 ```
 
-### BUSCO v4:
+**BUSCO v4:**
+[BUSCO v4](https://gitlab.com/ezlab/busco/-/tree/4.1.4) was released during the course of this work and was used to assess the completeness of the final assemblies.
+
 ```bash
-conda create --name buscov4 -c bioconda -c conda-forge busco=4.1.4
+conda create --name buscov4 -c bioconda -c conda-forge python=3.7 busco=4.1.4
 ```
 
-## 2. Purge_haplotigs
+### 2. Purge_haplotigs
 
 ```bash
 conda create --name purge_haplotigs -c bioconda -c conda-forge \
     purge_haplotigs=1.1.1
 ```
+
+### 3. RepeatMasker
+Although we set up RepeatMasker locally, it is now provided as part of the (Dfam-TETools container)[https://github.com/Dfam-consortium/TETools]. A Singularity image is built with the following command:
+
+```bash
+singularity build tetools.simg docker://dfam/tetools:latest
+```
+
+Instructions on running RepeatMasker with the RepBase repeat library are [here.](https://github.com/Dfam-consortium/TETools#using-repbase-repeatmasker-edition)
 
 ## Nanopore-based assembly
 Edit parameters at top of `make_nanopore_script.sh` and run to spawn a set of smaller job scripts. These should be run sequentially. Changes should be made to threads requested if varying between tasks (e.g. submitting to different nodes on a cluster). The draft sequence is generated following [ONT's recommendations](https://nanoporetech.github.io/medaka/draft_origin.html#how-should-i-create-my-draft-sequence). 

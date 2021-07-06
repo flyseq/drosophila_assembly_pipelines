@@ -3,7 +3,7 @@ The genome assembly pipeline is provided, step by step, in individual scripts. T
 
 Note that older versions of many of these programs have been specified here for the sake of consistency across our assemblies. In many cases there have been significant updates to these programs. Please use the most up-to-date versions for best results.
 
-## Conda environment setups
+## Conda environments and extra container setup
 
 ### 1. BUSCO
 
@@ -32,7 +32,7 @@ conda create --name purge_haplotigs -c bioconda -c conda-forge \
 ```
 
 ### 3. RepeatMasker
-Although we set up RepeatMasker locally, it is now provided as part of the (Dfam-TETools container)[https://github.com/Dfam-consortium/TETools]. A Singularity image is built with the following command:
+Although we set up RepeatMasker locally, it is now provided as part of the [Dfam-TETools container](https://github.com/Dfam-consortium/TETools). A Singularity image can be built with the following command:
 
 ```bash
 singularity build tetools.simg docker://dfam/tetools:latest

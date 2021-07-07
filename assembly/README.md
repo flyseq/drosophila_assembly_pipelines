@@ -137,8 +137,26 @@ Although Jellyfish is included in the Docker setup, we have not included [Genome
 
 A [web interface is also available for GenomeScope](http://qb.cshl.edu/genomescope/).
 
-### Variant calling
-Short read variant calling tools are available in the Docker image. [PEPPER-Margin-DeepVariant](https://github.com/kishwarshafin/pepper) already provides Docker and Singularity images.
+### Variant with short reads
+Short read variant calling tools are available in the Docker image. 
+
+* `call_variants_shortreads_map.sh`: Map Illumina reads to a reference
+* `call_variants_shortreads_pileup.sh`: Generate read pileup with [BCFtools](https://github.com/samtools/bcftools)
+* `call_variants_shortreads_call.sh`: Call variants with BCFtools
+* `call_variants_longreads_filter.sh`: Filter with BCFtools, site/genotype quality score of at least 30, exclude repetitive regions
+  + `<sample>_shortread_snps.vcf`: VCF file containing SNPs 
+  + `<sample>_shortread_indels.vcf`: VCF file containing indels
+  + `<sample>_shortread_allsites.vcf`: VCF file containing all sites passing quality filter
+
+### Variant calling with long reads
+[PEPPER-Margin-DeepVariant](https://github.com/kishwarshafin/pepper) already provides Docker and Singularity images.
+
+* `call_variants_longreads_map.sh`: Map Nanopore reads to reference 
+* `call_variants_longreads_call.sh`: Call variants with PEPPER-Margin-DeepVariant
+* `call_variants_longreads_filter.sh`: Filter variants with [BCFtools](https://github.com/samtools/bcftools). Filter on site/genotype quality score of at least 30, exclude repetitive regions
+  + `<sample>_longread_snps.vcf`: VCF file containing SNPs 
+  + `<sample>_longread_indels.vcf`: VCF file containing indels
+  + `<sample>_longread_allsites.g.vcf`: gVCF file containing sites/intervals of sites passing quality filter (*note*: this is a gVCF)
 
 ### Quality assessment with Merqury
 [Merqury](https://github.com/marbl/merqury) was used to perform k-mer based quality assessment. A genome assembly and short reads are required to run the following scripts.

@@ -5,8 +5,11 @@
 sp="D.melanogaster"                        # species/sample name
 threads="16"                               # number of threads to use
 
+# inputs
 assm="${sp}.assembly.sm.fasta"             # assembly filename
 bam="${sp}.readsToDraft.bam"               # BAM file name
+
+# outputs
 pileup="${sp}.mpileup"                     # read pileup file name
 
 # make pileups for each contig

@@ -19,15 +19,15 @@ vcf_all="${sp}_shortread_allsites.vcf"        # VCF containing all sites
 bcftools view -i "%QUAL>=${q} && MIN(FMT/GQ)>=${qv}" \
     --types snps -m 2 -M 2 --threads ${threads} ${vcf} \
   | bedtools subtract -header -a /dev/stdin -b ${repeats} \
-  > ${sp}_shortread_snps.vcf
+  > ${vcf_snps}
 
 # pull out indels passing filters, exclude repeats
 bcftools view -i "%QUAL>=${q} && MIN(FMT/GQ)>=${qv}" \
     --types indels -m 2 -M 2 --threads ${threads} ${vcf} \
   | bedtools subtract -header -a /dev/stdin -b ${repeats} \
-  > ${sp}_shortread_indels.vcf
+  > ${vcf_indels}
 
 # pull out all sites passing filters, exclude repeats
 bcftools view -i "%QUAL>=${q}" --threads ${threads} ${vcf} \
   | bedtools subtract -header -a /dev/stdin -b ${repeats} \
-  > ${sp}_shortread_allsites.vcf
+  > ${vcf_all}

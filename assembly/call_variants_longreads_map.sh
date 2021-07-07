@@ -5,9 +5,12 @@
 sp="D.melanogaster"                        # species/sample name
 threads="16"                               # number of threads to use
 
+# inputs 
 assm="${sp}.assembly.sm.fasta"             # assembly filename
-bam="${sp}.readsToDraft.bam"            # BAM file name
 reads="${sp}.passReads.fastq.gz"           # Nanopore reads
+
+# outputs
+bam="${sp}.readsToDraft.bam"               # BAM file name
 
 minimap2 -ax map-ont -t ${threads} ${assm} ${reads} \
   | samtools sort -@${threads} -O BAM -o ${bam}

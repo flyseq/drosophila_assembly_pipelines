@@ -133,7 +133,8 @@ JapsaRelease.zip \
  && unzip JapsaRelease.zip \
  && rm JapsaRelease.zip \
  && cd JapsaRelease \
- && sed -i 's/--mode install/--mode install --installDir \/tools\/japsa --server yes --xmx=7G/' install.sh \
+ && sed -i 's/--mode install/--mode install --installDir \/tools\/japsa \
+    --server yes --xmx=7G/' install.sh \
  && yes "" | ./install.sh \
 
 #install Pilon
@@ -153,3 +154,10 @@ RUN wget -q https://github.com/gmarcais/Jellyfish/releases/download/\
 v2.3.0/jellyfish-linux \
  && chmod +x jellyfish-linux \
  && mv jellyfish-linux /usr/local/bin/jellyfish
+
+# install BBTools
+RUN cd tools \
+ && curl -L https://sourceforge.net/projects/bbmap/files/latest/download \
+    -o bbtools.tar.gz
+ && tar zxf bbtools.tar.gz
+ && rm bbtools.tar.gz

@@ -1,0 +1,102 @@
+Species,assm_type,BUSCO_version,complete,single,duplicated,fragmented,missing,n
+C. costata,hybrid (Nanopore + Illumina),v4.0.6,99,98.2,0.8,0.2,0.8,3285
+D. ambigua,hybrid (Nanopore + Illumina),v4.0.6,99,98.3,0.7,0.3,0.7,3285
+D. americana,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.7,0.6,0.2,0.5,3285
+D. ananassae,hybrid (Nanopore + Illumina),v4.0.6,99.1,98.8,0.3,0.2,0.7,3285
+D. arawakana,hybrid (Nanopore + Illumina),v4.0.6,99,97.9,1.1,0.2,0.8,3285
+D. biarmipes,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.9,0.4,0.1,0.6,3285
+D. bipectinata,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.6,0.7,0.1,0.6,3285
+D. bocqueti,hybrid (Nanopore + Illumina),v4.0.6,99.1,98.3,0.8,0.2,0.7,3285
+D. cardini,hybrid (Nanopore + Illumina),v4.0.6,99,98.3,0.7,0.2,0.8,3285
+D. carrolli,hybrid (Nanopore + Illumina),v4.0.6,98.5,97.9,0.6,0.2,1.3,3285
+D. dunni,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.7,0.5,0.2,0.6,3285
+D. elegans,hybrid (Nanopore + Illumina),v4.0.6,99.3,99.1,0.2,0.1,0.6,3285
+D. equinoxialis,Nanopore,v4.1.4,98.5,97.3,1.2,0.5,1,3285
+D. ercepeae,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.7,0.6,0.1,0.6,3285
+D. erecta,hybrid (Nanopore + Illumina),v4.0.6,99.4,99.2,0.2,0.1,0.5,3285
+D. eugracilis,hybrid (Nanopore + Illumina),v4.0.6,99.4,99,0.4,0.2,0.4,3285
+D. littoralis,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.8,0.5,0.2,0.5,3285
+D. ficusphila,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.9,0.3,0.3,0.5,3285
+D. funebris,Nanopore,v4.0.6,98.7,98.3,0.4,0.2,1.1,3285
+D. fuyamai,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.4,0.9,0.1,0.6,3285
+D. grimshawi,hybrid (Nanopore + Illumina),v4.0.6,99.1,98.5,0.6,0.3,0.6,3285
+D. immigrans,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.4,0.9,0.2,0.5,3285
+D. immigrans kari17,hybrid (Nanopore + Illumina),v4.0.6,98.8,98,0.8,0.2,1,3285
+D. insularis,hybrid (Nanopore + Illumina),v4.0.6,99,98.4,0.6,0.2,0.8,3285
+D. jambulina,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.7,0.6,0.2,0.5,3285
+D. kikkawai,hybrid (Nanopore + Illumina),v4.0.6,99.6,98.8,0.8,0.1,0.3,3285
+D. kurseongensis,hybrid (Nanopore + Illumina),v4.0.6,99,98.4,0.6,0.3,0.7,3285
+D. m. malerkotliana,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.7,0.6,0.1,0.6,3285
+D. m. pallens,hybrid (Nanopore + Illumina),v4.0.6,99,98,1,0.3,0.7,3285
+D. mauritiana,hybrid (Nanopore + Illumina),v4.0.6,99.7,99.3,0.4,0.1,0.2,3285
+D. melanogaster,hybrid (Nanopore + Illumina),v4.0.6,99.5,99.1,0.4,0.1,0.4,3285
+D. mojavensis,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.8,0.4,0.3,0.5,3285
+D. murphyi,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.7,0.5,0.3,0.5,3285
+D. mush-saotome,Nanopore,v4.0.6,98.1,97.7,0.4,0.7,1.2,3285
+D. nebulosa,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.7,0.6,0.1,0.6,3285
+D. neocordata,hybrid (Nanopore + Illumina),v4.0.6,99.1,98.3,0.8,0.2,0.7,3285
+D. obscura,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.4,0.8,0.3,0.5,3285
+D. oshimai,hybrid (Nanopore + Illumina),v4.0.6,98.9,98.1,0.8,0.5,0.6,3285
+D. parabipectinata,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.6,0.6,0.2,0.6,3285
+D. paulistorum L06,hybrid (Nanopore + Illumina),v4.0.6,99.1,98.1,1,0.2,0.7,3285
+D. paulistorum L12,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.4,0.9,0.2,0.5,3285
+D. persimilis,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.3,0.9,0.3,0.5,3285
+D. prosaltans,hybrid (Nanopore + Illumina),v4.0.6,99.4,98.8,0.6,0.1,0.5,3285
+D. pruinosa,hybrid (Nanopore + Illumina),v4.0.6,98.8,98.2,0.6,0.3,0.9,3285
+D. p. nigrens,hybrid (Nanopore + Illumina),v4.0.6,98.7,97.5,1.2,0.4,0.9,3285
+D. p. pseudoananassae,hybrid (Nanopore + Illumina),v4.0.6,98.8,98.2,0.6,0.4,0.8,3285
+D. pseudoobscura,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.4,0.9,0.2,0.5,3285
+D. quadrilineata,hybrid (Nanopore + Illumina),v4.0.6,99,98.5,0.5,0.3,0.7,3285
+D. repleta,hybrid (Nanopore + Illumina),v4.0.6,97.8,97.5,0.3,0.5,1.7,3285
+D. repletoides,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.4,0.9,0.2,0.5,3285
+D. rhopaloa,hybrid (Nanopore + Illumina),v4.0.6,98.6,98.1,0.5,0.2,1.2,3285
+D. rufa,hybrid (Nanopore + Illumina),v4.0.6,98.9,98.2,0.7,0.2,0.9,3285
+D. saltans,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.5,0.7,0.1,0.7,3285
+D. sechellia,hybrid (Nanopore + Illumina),v4.0.6,99.5,99.1,0.4,0.1,0.4,3285
+D. simulans,hybrid (Nanopore + Illumina),v4.0.6,99.4,99.1,0.3,0.2,0.4,3285
+D. sp. aff chauvacae,hybrid (Nanopore + Illumina),v4.0.6,99.4,96.4,3,0.2,0.4,3285
+D. sproati,hybrid (Nanopore + Illumina),v4.0.6,99.4,98.7,0.7,0.2,0.4,3285
+D. sturtevanti,hybrid (Nanopore + Illumina),v4.0.6,99.1,98.5,0.6,0.2,0.7,3285
+D. subobscura,hybrid (Nanopore + Illumina),v4.0.6,99.6,99,0.6,0.1,0.3,3285
+D. subpulchrella,Nanopore,v4.0.6,97.8,97.4,0.4,0.6,1.6,3285
+D. succinea,hybrid (Nanopore + Illumina),v4.0.6,99,98.5,0.5,0.2,0.8,3285
+D. takahashii,hybrid (Nanopore + Illumina),v4.0.6,98.6,98.3,0.3,0.1,1.3,3285
+D. teissieri 273.3,hybrid (Nanopore + Illumina),v4.0.6,99,98.7,0.3,0.5,0.5,3285
+D. teissieri CT02,hybrid (Nanopore + Illumina),v4.0.6,98.5,98.3,0.2,0.4,1.1,3285
+D. triauraria,hybrid (Nanopore + Illumina),v4.0.6,98.7,97.9,0.8,0.3,1,3285
+D. tristis,hybrid (Nanopore + Illumina),v4.0.6,97.9,97.4,0.5,0.3,1.8,3285
+D. tropicalis,Nanopore,v4.0.6,98.8,97.7,1.1,0.4,0.8,3285
+D. varians,hybrid (Nanopore + Illumina),v4.0.6,99.4,99.1,0.3,0.2,0.4,3285
+D. virilis,hybrid (Nanopore + Illumina),v4.0.6,99.4,99,0.4,0.2,0.4,3285
+D. willistoni,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.4,0.8,0.2,0.6,3285
+D. willistoni Uruguay,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.5,0.8,0.2,0.5,3285
+D. yakuba,hybrid (Nanopore + Illumina),v4.0.6,99.5,99.2,0.3,0.2,0.3,3285
+L. varia,Nanopore,v4.0.6,95.1,91.8,3.3,1.9,3,3285
+L. clarofinis,hybrid (Nanopore + Illumina),v4.0.6,98.3,95.7,2.6,0.4,1.3,3285
+L. collinella,hybrid (Nanopore + Illumina),v4.0.6,96.8,94.1,2.7,0.5,2.7,3285
+L. magnipectinata,hybrid (Nanopore + Illumina),v4.0.6,97.3,94.9,2.4,1.2,1.5,3285
+L. mommai,hybrid (Nanopore + Illumina),v4.0.6,97.2,95.5,1.7,0.7,2.1,3285
+L. stackelbergi,hybrid (Nanopore + Illumina),v4.0.6,77.7,75.9,1.8,2.6,19.7,3285
+S. graminum,hybrid (Nanopore + Illumina),v4.0.6,99,98.3,0.7,0.2,0.8,3285
+S. hsui,hybrid (Nanopore + Illumina),v4.0.6,98.8,98,0.8,0.3,0.9,3285
+S. montana,hybrid (Nanopore + Illumina),v4.0.6,99.1,97.9,1.2,0.3,0.6,3285
+S. pallida,hybrid (Nanopore + Illumina),v4.0.6,98.5,97.3,1.2,0.5,1,3285
+Z. africanus,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.5,0.7,0.2,0.6,3285
+Z. camerounensis,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.2,1,0.3,0.5,3285
+Z. capensis,hybrid (Nanopore + Illumina),v4.0.6,99.2,98,1.2,0.3,0.5,3285
+Z. davidi,hybrid (Nanopore + Illumina),v4.0.6,99,98.1,0.9,0.4,0.6,3285
+Z. gabonicus,hybrid (Nanopore + Illumina),v4.0.6,99.3,98.6,0.7,0.2,0.5,3285
+Z. ghesquierei,hybrid (Nanopore + Illumina),v4.0.6,98.9,97.5,1.4,0.3,0.8,3285
+Z. indianus 16GNV01,hybrid (Nanopore + Illumina),v4.0.6,98.3,97.8,0.5,0.5,1.2,3285
+Z. indianus BS02,hybrid (Nanopore + Illumina),v4.0.6,98.4,97.7,0.7,0.6,1,3285
+Z. indianus CDD18,hybrid (Nanopore + Illumina),v4.0.6,99.1,98.5,0.6,0.2,0.7,3285
+Z. indianus RCR04,hybrid (Nanopore + Illumina),v4.0.6,98.8,98.1,0.7,0.3,0.9,3285
+Z. inermis,hybrid (Nanopore + Illumina),v4.0.6,99,98.3,0.7,0.4,0.6,3285
+Z. kolodkinae,hybrid (Nanopore + Illumina),v4.0.6,99.2,98.4,0.8,0.3,0.5,3285
+Z. lachaisei,Nanopore,v4.0.6,98.7,98.1,0.6,0.5,0.8,3285
+Z. nigranus,hybrid (Nanopore + Illumina),v4.0.6,97.1,95.2,1.9,0.8,2.1,3285
+Z. ornatus,hybrid (Nanopore + Illumina),v4.0.6,99,97.8,1.2,0.3,0.7,3285
+Z. taronus,Nanopore,v4.0.6,98.1,96.9,1.2,0.6,1.3,3285
+Z. tsacasi,hybrid (Nanopore + Illumina),v4.0.6,99,98.4,0.6,0.4,0.6,3285
+Z. tsacasi car7-4,hybrid (Nanopore + Illumina),v4.0.6,98.9,98.1,0.8,0.4,0.7,3285
+Z. vittiger,hybrid (Nanopore + Illumina),v4.0.6,99.1,98.4,0.7,0.3,0.6,3285

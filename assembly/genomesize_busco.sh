@@ -1,32 +1,44 @@
 #! /bin/bash
 
-ls ~/working/updated_genomes \
- | sed 's/.assembly.sm.fasta.gz//' \
- > ~/active-data/genomesize/genomes_list.txt
+# this script estimates genome size from depth of coverage over single-copy
+# BUSCOs
 
-cat ~/active-data/genomesize/genomes_list.txt |
-while read sp; do
-cp ~/active-data/buscos_v4/${sp}.buscov4.tar.gz ./
-tar zxf ${sp}.buscov4.tar.gz
-cp ~/active-data/reads/${sp}.passReads.guppy???.fastq.gz ./
-reads=$(ls ${sp}.passReads.guppy???.fastq.gz | tr '\n' ' ' | cut -d' ' -f1)
-cat \
-  ${sp}.buscov4/run_diptera_odb10/busco_sequences/single_copy_busco_sequences/*.fna \
-  > ${sp}.buscocds.fasta
+# job parameters
+sp="D.melanogaster"                # sample name/ID
+threads="32"                       # number of threads to use
+buscoRun="${sp}.buscov4"           # path to folder containing BUSCOv4 run
 
-ncomp=$(cat ${sp}.buscocds.fasta | grep ">" | wc -l)
+reads="${sp}.passReads.fastq.gz"   # nanopore reads (can use Illumina instead)
+assm="${sp}.assembly.sm.fasta"     # filename of assembly BUSCO was run with
+outFile="${sp}.buscoCoverage.csv"  # filename to write BUSCO output to
 
-minimap2 -ax map-ont --secondary no -t 78 ${sp}.buscocds.fasta ${reads} \
-    | samtools sort -@78 -o reads_to_busco.sam
+# get BED interval of complete and single-copy BUSCO coordinates
+cat ${buscoRun}/run*/full_table.tsv | grep -v "#" \
+ | awk '{OFS="\t"}($2=="Complete"){print $3,$4-1,$5,$1}' > ${sp}.buscos.bed
 
-stats=$(samtools depth -aa reads_to_busco.sam \
-         | awk '{OFS=","}{sum+=$3} END { print sum,NR }')
+# get number of complete and single-copy BUSCOs
+ncomp=$( cat buscos.bed | wc -l )
 
-readl=$(zcat ${reads} | paste - - - - | cut -f 2 | tr -d '\n' | wc -c )
+# map reads to genome
+minimap2 -ax map-ont --secondary no -t ${threads} ${assm} ${reads} \
+  | samtools sort -@${threads} -o ${sp}_reads_to_busco.sam
 
-mkdir -p ~/active-data/genomesize
-echo "${sp},${ncomp},${stats},${readl}" \
-  > ~/active-data/genomesize/${sp}.coverage.csv
+# compute coverage statistics
+# total depth over all busco sites
+sum=$(samtools depth -b buscos.bed ${sp}_reads_to_busco.sam \
+        | awk '{sum+=$3} END { print sum","NR }')
+# total number of bp in BUSCOs
+len=$(cat ${sp}_reads_to_busco.sam \
+        | awk '{sum+=($3-$2)} END { print sum }')
+# total number of bp in reads
+readl=$(zcat ${reads} \
+          | paste - - - - \
+          | cut -f 2 \
+          | tr -d '\n' \
+          | wc -c )
 
-rm -r ./*
-done
+# write info to file
+# species name, num complete BUSCOS, total depth, total BUSCO bp, total read bp
+# genome size is computed as: (total read bp)/(total depth/total BUSCO bp)
+echo "${sp},${ncomp},${sum},${len},${readl}" \
+  > ${outFile}

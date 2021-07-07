@@ -6,11 +6,12 @@
 # IMPORTANT: the cutoffs provide to purge_haplotigs cov must be set manually.
 #            Please see instructions at the above link for the instructions.
 
-# set up filenames/designators
-reads="D.melanogaster.passReads.guppy322.fastq.gz" # Nanopore reads file
-assembly="D.melanogaster.FlyeAssembly.fasta" # genome file
-sp="D.melanogaster" # species/sample name
-t="16" # number of cores/threads
+# job parameters
+sp="D.melanogaster"                            # species/sample name
+threads="16"                                   # number of cores/threads
+
+reads="${sp}.passReads.fastq.gz"               # Nanopore reads file
+assembly="${sp}.FlyeAssembly.fasta"            # genome file
 
 # map reads to assembly
 minimap2 -ax map-ont -t ${threads} ${assembly} ${reads} --secondary=no \

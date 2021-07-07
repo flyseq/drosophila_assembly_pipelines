@@ -9,7 +9,7 @@ threads="16"                               # number of threads to use
 pileup="${sp}.mpileup"                     # read pileup file name
 
 # outputs
-vcf_all="${sp}.vcf"                        # VCF containing all sites
+vcf="${sp}.vcf"                        # VCF containing all sites
 
 # make pileups for each contig
 bcftools call -m -Ov --threads ${threads} -f GQ -o ${vcf_all} ${sp}.mpileup

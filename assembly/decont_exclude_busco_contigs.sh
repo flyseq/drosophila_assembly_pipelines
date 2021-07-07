@@ -20,7 +20,7 @@ run_BUSCO.py -i ${assm} -o ${sp}.pilon.busco \
 conda deactivate
 
 # get list of contig names where BUSCOs are present
-cat ${sp}.pilon.busco/full_table_${sp}*.tsv \
+cat run_${sp}.pilon.busco/full_table_${sp}*.tsv \
   | grep -v "^#" \
   | grep -v "Missing" \
   | awk '{print $3}' \
@@ -36,6 +36,6 @@ cat $assm \
   > ${sp}_nobusco_contigs.txt
 
 # get fasta excluding contigs with BUSCOs
-seqtk subseq -l80 ${sp}.pilon.fasta ${sp}_nobusco_contigs.txt \
+seqtk subseq -l80 ${assm} ${sp}_nobusco_contigs.txt \
   > ${sp}.pilon.nobusco.fasta \
  && rm ${sp}_nobusco_contigs.txt

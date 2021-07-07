@@ -1,10 +1,10 @@
 #! /bin/bash
 
-# Sample BLASTn command
+# This script removes all tagged contaminant contigs from the Pilon-polished
+# assembly.
 
 # job parameters
 sp="D.melanogaster"                # sample name/ID
-threads="32"                       # number of threads to use
 
 assm="${sp}.assembly.pilon.fasta"     # Pilon assembly filename
 remove="${sp}_remove_contigs.txt"     # File with contigs to exclude
@@ -19,7 +19,9 @@ cat $assm \
 
 # get new fasta minus contaminant contigs
 # rename contigs to simplify
-seqtk subseq -l80 ${sp}.pilon.fasta ${sp}_nobusco_contigs.txt \
+# then clean up files
+seqtk subseq -l80 ${assm} ${sp}_keep_contigs.txt \
   | awk '/^>/{print ">contig_" ++i; next}{print}' \
   > ${outassm} \
- && rm ${sp}_nobusco_contigs.txt
+ && rm D.melanogaster_remove_contigs.txt \
+ && rm ${sp}_keep_contigs.txt

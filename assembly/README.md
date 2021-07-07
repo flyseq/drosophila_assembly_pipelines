@@ -1,9 +1,10 @@
-# Genome assembly workflow
+# Genome assembly and quality assessment workflows
 The genome assembly pipeline is provided, step by step, in individual scripts. To ensure reproducibility and consistency of compute environments, each step was run either in a container or a Conda environment.
 
 Note that older versions of many of these programs have been specified here for the sake of consistency across our assemblies. In many cases there have been significant updates to these programs. Please use the most up-to-date versions for best results.
 
-## Conda environments and extra container setup
+## Setup
+Setup instructions for conda enviroments and containers.
 
 ### 1. BUSCO
 
@@ -48,6 +49,32 @@ perl update_blastdb.pl --decompress nt
 Then make sure the `BLASTDB` environmental variable is set to the directory containing the NT database files.
 ```bash
 export BLASTDB="/path/to/blastdb"
+```
+
+### 5. Merqury
+
+```bash
+conda create --name merqury -c bioconda merqury
+```
+
+### 6. Pomoxis
+Due to compatibility issues between the [Pomoxis](https://github.com/nanoporetech/pomoxis) and [AGAT](https://github.com/NBISweden/AGAT) Conda installations, we recommend installing them into separate Conda environments.
+
+Pomoxis:
+```bash
+conda create --name pomoxis -c bioconda pomoxis
+```
+
+AGAT (this takes a while):
+```bash
+conda create --name agat -c bioconda agat
+```
+
+### 7. PEPPER-Margin-DeepVariant
+[PEPPER-Margin-DeepVariant](https://github.com/kishwarshafin/pepper) already provides a Docker image. A local copy of the Singularity image is generated with the command
+
+```bash
+singularity pull docker://kishwars/pepper_deepvariant:r0.4
 ```
 
 ## Genome assembly workflow
@@ -102,8 +129,8 @@ BUSCO should be run on the genome of interest before running the provided script
 
 * `genomesize_busco.sh`
 
-### Genome size estimation
-Although Jellyfish is included in the Docker setup, we have not included [GenomeScope](https://github.com/schatzlab/genomescope) as it is simply run as an R script. 
+### Genome size estimation from short reads
+Although Jellyfish is included in the Docker setup, we have not included [GenomeScope](https://github.com/schatzlab/genomescope) as it is simply run as an R script. Only short read data are needed for the following scripts.
 
 * `genomesize_jellyfish.sh`: generate a k-mer count histogram from short reads, use `<sample>.reads.hist` for genomeScope analysis
 * [Instructions for running GenomeScope](https://github.com/schatzlab/genomescope#running-genomescope-on-the-command-line)
@@ -113,16 +140,17 @@ A [web interface is also available for GenomeScope](http://qb.cshl.edu/genomesco
 ### Variant calling
 Short read variant calling tools are available in the Docker image. [PEPPER-Margin-DeepVariant](https://github.com/kishwarshafin/pepper) already provides Docker and Singularity images.
 
-### Quality assessment
-[Merqury](https://github.com/marbl/merqury) and [Pomoxis](https://github.com/nanoporetech/pomoxis) were installed in Conda environments.
+### Quality assessment with Merqury
+[Merqury](https://github.com/marbl/merqury) was used to perform k-mer based quality assessment. A genome assembly and short reads are required to run the following scripts.
 
-Merqury:
-```bash
-conda create --name merqury -c bioconda merqury
-```
+* `qscore_trimreads.sh`: adapter trimming short reads in preparation for Merqury
+* `qscore_merqury.sh`: script to run Merqury quality assessment
 
-Pomoxis:
-```bash
-conda create --name pomoxis -c bioconda pomoxis
-```
+### Quality assessment with Pomoxis
+A high-quality reference genome is required for reference-based quality assessments with Pomoxis. The following code is set up to work with NBCI RefSeq Drosophila genomes.
 
+* `qscore_longestisoform.sh`: prepare RefSeq GFF for use with Pomoxis
+* `qscore_reference.sh`: compute quality scores for different genomic regions. Creates the following useful output files
+  + `${sp}_indel_gene_list.tsv`: list of all coding sequence indels
+  + `${sp}_gene_list.tsv`: list of all protein-coding genes
+  + `${sp}.referenceQV.csv`: table of quality scores

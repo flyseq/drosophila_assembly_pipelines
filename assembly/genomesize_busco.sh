@@ -17,7 +17,7 @@ cat ${buscoRun}/run*/full_table.tsv | grep -v "#" \
  | awk '{OFS="\t"}($2=="Complete"){print $3,$4-1,$5,$1}' > ${sp}.buscos.bed
 
 # get number of complete and single-copy BUSCOs
-ncomp=$( cat buscos.bed | wc -l )
+ncomp=$( cat ${sp}.buscos.bed | wc -l )
 
 # map reads to genome
 minimap2 -ax map-ont --secondary no -t ${threads} ${assm} ${reads} \
@@ -25,10 +25,10 @@ minimap2 -ax map-ont --secondary no -t ${threads} ${assm} ${reads} \
 
 # compute coverage statistics
 # total depth over all busco sites
-sum=$(samtools depth -b buscos.bed ${sp}_reads_to_busco.sam \
+sum=$(samtools depth -b ${sp}.buscos.bed ${sp}_reads_to_busco.sam \
         | awk '{sum+=$3} END { print sum","NR }')
 # total number of bp in BUSCOs
-len=$(cat ${sp}_reads_to_busco.sam \
+len=$(cat ${sp}.buscos.bed \
         | awk '{sum+=($3-$2)} END { print sum }')
 # total number of bp in reads
 readl=$(zcat ${reads} \

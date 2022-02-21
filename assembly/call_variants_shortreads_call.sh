@@ -11,5 +11,5 @@ pileup="${sp}.mpileup"                     # read pileup file name
 # outputs
 vcf="${sp}.vcf"                        # VCF containing all sites
 
-# make pileups for each contig
-bcftools call -m -Ov --threads ${threads} -f GQ -o ${vcf_all} ${sp}.mpileup
+# call variants for all genomic sites
+bcftools call -m -Ov --threads ${threads} -f GQ -o ${vcf} ${sp}.mpileup

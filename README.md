@@ -7,8 +7,6 @@ Scripts and Dockerfiles for [our paper](https://www.biorxiv.org/content/10.1101/
 The reads and genomes produced by this work are available through NCBI from BioProject PRJNA675888. A supplementary table with accession numbers is provided in our manuscript. Alternatively, only for species that we sequenced and uploaded to NCBI, a table can be generated with the [SRA Run Selector](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA675888). 
 
 ### Data access through request
-We are also hosting genome assemblies [here](https://web.stanford.edu/~bkim331/files/genomes/). **While they are currently the same version as NCBI, please note these may be different in the future.** Genomes will be updated in the future and genomes may take a while to process at NCBI. Additional note: *D. acanthoptera, D. bromeliae, and D. wassermani* are short read assemblies and have been minimally processed.
-
 Nanopore raw data (fast5) files are not provided due to large file sizes but we will supply them freely upon request. Please email Bernard Kim (email on GitHub profile page) for access. 
 
 We recommend Rclone, an Rsync like utility for cloud and web storage, for batch downloads of files. Download it [here](https://rclone.org/downloads/). 
